@@ -4,12 +4,7 @@
  */
 package geoquiz.data;
 
-import geoquiz.Country;
-import geoquiz.data.IDataSource;
-import geoquiz.data.DataException;
-import java.io.*;
-import java.net.URL;
-import java.util.*;
+import geoquiz.*;
 
 /**
  *
@@ -70,8 +65,9 @@ public class GeonamesDataSource implements IDataSource {
     
     private int findFieldIndex(String field){
         for(int i = 0; i < this.countryFileColumns.length; i++) {
-            if(this.countryFileColumns[i].equals(field))
+            if(this.countryFileColumns[i].equals(field)) {
                 return i;
+            }
         }
         
         return -1;

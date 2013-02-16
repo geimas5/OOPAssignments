@@ -78,6 +78,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new MainFrame().setVisible(true);
             }
@@ -87,8 +88,9 @@ public class MainFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     public void showMenu() {
-        if(activeView != null)
-            this.remove(((Component)activeView));
+        if(activeView != null) {
+            this.remove((Component)activeView);
+        }
         
         MenuView menu = new MenuView(this);
         menu.setSize(menu.getMaximumSize());
@@ -100,8 +102,9 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void showHighscores() {
-        if(activeView != null)
+        if(activeView != null) {
             this.remove(((Component)activeView));
+        }
         
         HighscoresView scores = new HighscoresView(this);
         scores.setSize(this.getWidth() - 20, this.getHeight());
@@ -109,6 +112,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.activeView = scores;
         
         this.revalidate();
+        this.repaint();
     }
     
     public void startGame() {
@@ -122,5 +126,6 @@ public class MainFrame extends javax.swing.JFrame {
         this.activeView = quiz;
         
         this.revalidate();
+        this.repaint();
     }
 }
