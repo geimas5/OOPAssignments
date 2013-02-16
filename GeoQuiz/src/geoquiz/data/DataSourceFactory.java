@@ -9,7 +9,7 @@ package geoquiz.data;
  * @author Marius Geitle
  */
 public class DataSourceFactory {
-    public static IDataSource createDataSource() {
+    public static IGeoDataSource createDataSource() {
         return new GeonamesDataSource();
     }
 }

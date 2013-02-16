@@ -14,7 +14,7 @@ import java.util.*;
 public class QuestionFactory {
     private static QuestionFactory instance;
     
-    private IDataSource dataSource;
+    private IGeoDataSource dataSource;
     private Country[] countries;
     
     

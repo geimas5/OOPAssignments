@@ -10,7 +10,7 @@ import geoquiz.*;
  *
  * @author Marius Geitle
  */
-public class GeonamesDataSource implements IDataSource {
+public class GeonamesDataSource implements IGeoDataSource {
     private final String countryFile = "http://ws.geonames.org/countryInfoCSV";
     private final String[] countryFileColumns = {
         "iso2", 

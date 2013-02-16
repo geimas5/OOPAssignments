@@ -10,6 +10,6 @@ import geoquiz.Country;
  *
  * @author Marius Geitle
  */
-public interface IDataSource {
+public interface IGeoDataSource {
     Country[] findAllCountries() throws DataException;
 }
