@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package geoquiz;
+package geoquiz.data;
 
 /**
  *
- * @author mariusg
+ * @author Marius Geitle
  */
-class DataException extends Exception {
+public class DataException extends Exception {
 
     public DataException(String message) {
         super(message);

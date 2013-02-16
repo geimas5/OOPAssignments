@@ -2,15 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package geoquiz;
+package geoquiz.data;
 
+import geoquiz.Country;
+import geoquiz.data.IDataSource;
+import geoquiz.data.DataException;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
 
 /**
  *
- * @author mariusg
+ * @author Marius Geitle
  */
 public class GeonamesDataSource implements IDataSource {
     private final String countryFile = "http://ws.geonames.org/countryInfoCSV";
@@ -31,12 +34,14 @@ public class GeonamesDataSource implements IDataSource {
     @Override
     public Country[] findAllCountries() throws DataException {
         try {
-            List<String[]> rows = readCSVFile(countryFile);
-            Country[] countries = new Country[rows.size()];
+            CsvFileParser parser = new CsvFileParser();
+            FileParserResult csvFile = parser.parseFile(countryFile);
+             
+            Country[] countries = new Country[csvFile.getRowCount()];
             
-            for(int i = 0; i < rows.size(); i++){
+            for(int i = 0; i < csvFile.getRowCount(); i++){
                 try{
-                    countries[i] = convertToCountry(rows.get(i));      
+                    countries[i] = convertToCountry(csvFile.getRow(i));      
                 }
                 catch (Exception ex){
                     System.out.println(i);
@@ -70,23 +75,5 @@ public class GeonamesDataSource implements IDataSource {
         }
         
         return -1;
-    }
-    
-    private List<String[]> readCSVFile(String file) throws FileNotFoundException, IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(file).openStream(), "UTF-8"));
-        
-        LinkedList<String[]> entries = new LinkedList<>();
-        
-        // Skipping header
-        if(reader.readLine() == null) {
-            return entries;
-        } //Missing header.
-        
-        String row;
-        while((row = reader.readLine()) != null && !row.equals("")) {
-            entries.add(row.split("\t"));
-        }
-        
-        return entries;
     }
 }

@@ -6,7 +6,7 @@ package geoquiz;
 
 /**
  *
- * @author mariusg
+ * @author Marius Geitle
  */
 public class MenuView extends javax.swing.JPanel implements IView {
     

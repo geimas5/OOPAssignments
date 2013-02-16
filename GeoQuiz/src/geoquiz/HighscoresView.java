@@ -6,7 +6,7 @@ package geoquiz;
 
 /**
  *
- * @author mariusg
+ * @author Marius Geitle
  */
 public class HighscoresView extends javax.swing.JPanel implements IView {
 

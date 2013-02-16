@@ -4,11 +4,12 @@
  */
 package geoquiz;
 
+import geoquiz.data.*;
 import java.util.*;
 
 /**
  *
- * @author mariusg
+ * @author Marius Geitle
  */
 public class QuestionFactory {
     private static QuestionFactory instance;
@@ -53,16 +54,18 @@ public class QuestionFactory {
         
         while(numQuestions > 0) {
              Country choiceCountry = countries[new Random().nextInt(countries.length)];
-             if(choiceCountry.getIso3().equals(country.getIso3()) || choiceCountry.getCapital().isEmpty())
-                 continue;
+             if(choiceCountry.getIso3().equals(country.getIso3()) || choiceCountry.getCapital().isEmpty()) {
+                continue;
+            }
              
             choices.add(new Choice(choiceCountry.getCapital(), false));        
             numQuestions--;
         }
         
         Choice[] chos = new Choice[4];
-        
-        return new MultipleChoiceQuestion(message, choices.toArray(chos));
+        choices.toArray(chos);
+        shuffle(chos);
+        return new MultipleChoiceQuestion(message, chos);
     }
      
     private Country findCountryWithCapital() throws Exception {
@@ -74,6 +77,22 @@ public class QuestionFactory {
         }
         
         throw new Exception("Unable to find a country with a capital within " + tryCount + "attempts");
+    }
+    
+    public static void shuffle(Choice[] a) {
+        int n = a.length;
+        Random random = new Random();
+        random.nextInt();
+        for (int i = 0; i < n; i++) {
+            int change = i + random.nextInt(n - i);
+            swap(a, i, change);
+        }
+    }
+
+    private static void swap(Choice[] a, int i, int change) {
+        Choice helper = a[i];
+        a[i] = a[change];
+        a[change] = helper;
     }
     
     private void ensureCountries() throws DataException{

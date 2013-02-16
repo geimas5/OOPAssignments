@@ -8,7 +8,7 @@ import java.awt.*;
 
 /**
  *
- * @author mariusg
+ * @author Marius Geitle
  */
 public class MainFrame extends javax.swing.JFrame {
 

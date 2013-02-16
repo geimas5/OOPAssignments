@@ -4,12 +4,10 @@
  */
 package geoquiz.data;
 
-import geoquiz.Country;
-
 /**
  *
  * @author Marius Geitle
  */
-public interface IDataSource {
-    Country[] findAllCountries() throws DataException;
+public interface ITextFileParser {    
+    FileParserResult parseFile(String url) throws Exception;
 }

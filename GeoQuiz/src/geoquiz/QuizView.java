@@ -9,7 +9,7 @@ import javax.swing.*;
 
 /**
  *
- * @author mariusg
+ * @author Marius Geitle
  */
 public class QuizView extends javax.swing.JPanel implements IView {
 
@@ -58,9 +58,9 @@ public class QuizView extends javax.swing.JPanel implements IView {
         
         for(int i = 0; i < numberOfQuestions; i++){
             try {
-                questions.add(factory.generateQuestion());
+                questions.add(factory.generateQuestion());    
             }
-            catch(DataException ex){
+            catch(Exception ex){
                System.out.println(ex.toString());
            }
         }

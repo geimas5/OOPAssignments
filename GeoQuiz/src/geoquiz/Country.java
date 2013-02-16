@@ -4,7 +4,10 @@
  */
 package geoquiz;
 
-
+/**
+ *
+ * @author Marius Geitle
+ */
 public class Country {
     private String iso2;
     private String iso3;

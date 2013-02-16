@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package geoquiz;
+package geoquiz.data;
 
 /**
  *
- * @author mariusg
+ * @author Marius Geitle
  */
 public class DataSourceFactory {
     public static IDataSource createDataSource() {

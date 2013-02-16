@@ -6,7 +6,7 @@ package geoquiz;
 
 /**
  *
- * @author mariusg
+ * @author Marius Geitle
  */
 public abstract class QuestionBase extends javax.swing.JPanel {
     
