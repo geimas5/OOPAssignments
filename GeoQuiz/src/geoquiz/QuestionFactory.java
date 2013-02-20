@@ -34,10 +34,18 @@ public class QuestionFactory {
         return generateMultipleChoice();
     }
     
+    
     private MultipleChoiceQuestion generateMultipleChoice() throws Exception {
         ensureCountries();
-        
-        return generateCapitalQuestion();
+     
+        switch(new Random().nextInt(2)){
+            case 0:
+                return generateCapitalQuestion();
+            case 1:
+                return generateContinentCityQuestion();
+            default:
+                throw new Exception();
+        }
     }
     
      private MultipleChoiceQuestion generateCapitalQuestion() throws Exception {
@@ -54,18 +62,45 @@ public class QuestionFactory {
         
         while(numQuestions > 0) {
              Country choiceCountry = countries[new Random().nextInt(countries.length)];
-             if(choiceCountry.getIso3().equals(country.getIso3()) || choiceCountry.getCapital().isEmpty()) {
-                continue;
-            }
+             if(choiceCountry.getIso3().equals(country.getIso3()) || choiceCountry.getCapital().isEmpty())
+                 continue;
              
             choices.add(new Choice(choiceCountry.getCapital(), false));        
             numQuestions--;
         }
         
         Choice[] chos = new Choice[4];
-        choices.toArray(chos);
-        shuffle(chos);
-        return new MultipleChoiceQuestion(message, chos);
+        
+        return new MultipleChoiceQuestion(message, choices.toArray(chos));
+    }
+     
+     private MultipleChoiceQuestion generateContinentCityQuestion() throws Exception {
+        ensureCountries();
+        
+        Country country = findCountryWithCapital();
+        
+        String message = "In what continent lies the city " + country.getCapital();
+        
+        List<Choice> choices = new ArrayList<>();
+        List<String> addedContinents = new ArrayList<>();
+        
+        addedContinents.add(convertContinentToName(country.getContinent()));
+        choices.add(new Choice(convertContinentToName(country.getContinent()), true));
+        
+        int numQuestions = 3;
+        
+        while(numQuestions > 0) {
+             Country choiceCountry = countries[new Random().nextInt(countries.length)];
+             if(addedContinents.contains(convertContinentToName(choiceCountry.getContinent())))
+                 continue;
+            
+            choices.add(new Choice(convertContinentToName(choiceCountry.getContinent()), false));        
+            numQuestions--;
+        }
+        
+        Choice[] chos = new Choice[4];
+        
+        return new MultipleChoiceQuestion(message, choices.toArray(chos));
     }
      
     private Country findCountryWithCapital() throws Exception {
@@ -93,6 +128,27 @@ public class QuestionFactory {
         Choice helper = a[i];
         a[i] = a[change];
         a[change] = helper;
+    }
+    
+     private String convertContinentToName(String continent) {
+        switch(continent) {
+            case "AF":
+                return "Africa";
+            case "AS":
+                return "Asia";
+            case "NA":
+                return "North America";
+            case "SA":
+                return "South America";
+            case "OC":
+                return "Oceania";
+            case "AN":
+                return "Antarctica";
+            case "EU":
+               return "Europe";
+            default:
+                return continent;
+        }
     }
     
     private void ensureCountries() throws DataException{
