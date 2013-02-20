@@ -82,7 +82,7 @@ public class QuizView extends javax.swing.JPanel implements IView {
     private void finishQuiz(){
         int score = calculateScore(); 
         
-        JOptionPane.showMessageDialog(this, "Your final score: " + score);
+        JOptionPane.showMessageDialog(this, "Your final score: " + score + " Total wrong answers: " + (numberOfQuestions - score));
         this.mainFrame.showMenu();
     }
     

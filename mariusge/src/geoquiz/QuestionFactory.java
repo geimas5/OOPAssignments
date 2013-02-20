@@ -38,11 +38,13 @@ public class QuestionFactory {
     private MultipleChoiceQuestion generateMultipleChoice() throws Exception {
         ensureCountries();
      
-        switch(new Random().nextInt(2)){
+        switch(new Random().nextInt(3)){
             case 0:
                 return generateCapitalQuestion();
             case 1:
                 return generateContinentCityQuestion();
+            case 2:
+                return generateWhereIsCapitatQuestion();
             default:
                 throw new Exception();
         }
@@ -95,6 +97,33 @@ public class QuestionFactory {
                  continue;
             
             choices.add(new Choice(convertContinentToName(choiceCountry.getContinent()), false));        
+            numQuestions--;
+        }
+        
+        Choice[] chos = new Choice[4];
+        
+        return new MultipleChoiceQuestion(message, choices.toArray(chos));
+    }
+     
+     
+     private MultipleChoiceQuestion generateWhereIsCapitatQuestion() throws Exception {
+        ensureCountries();
+        
+        Country country = findCountryWithCapital();
+        
+        String message = "Where is " + country.getCapital() + " the capital city?";
+        
+        List<Choice> choices = new ArrayList<>();
+        choices.add(new Choice(country.getName(), true));
+        
+        int numQuestions = 3;
+        
+        while(numQuestions > 0) {
+             Country choiceCountry = countries[new Random().nextInt(countries.length)];
+             if(choiceCountry.getIso3().equals(country.getIso3()) || choiceCountry.getCapital().isEmpty())
+                 continue;
+             
+            choices.add(new Choice(choiceCountry.getName(), false));        
             numQuestions--;
         }
         
