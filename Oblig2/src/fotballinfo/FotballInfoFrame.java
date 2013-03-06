@@ -12,7 +12,7 @@ public class FotballInfoFrame extends JFrame {
     private static final String SELECT_DATA_SOURCE_TEXT = "Select data source";
     
     private IDataProvider currentDataProvider;
-    private IDataView activeView;
+    private ViewBase activeView;
     
     /**
      * Creates new form FotballInfoFrame
@@ -22,15 +22,22 @@ public class FotballInfoFrame extends JFrame {
     }
     
     public void showSeasons() {
-        YearView view = new YearView(currentDataProvider, this);
+        YearView view = new YearView(this, currentDataProvider);
+        setView(view);
+    }
+    
+    public void showSeason(int year) {
+        SeasonView view = new SeasonView(this, currentDataProvider, year);
+        setView(view);
+    }
+    
+    private void setView(ViewBase view) {
+        this.clearView();
+        
         this.activeView = view;
         viewContainerPanel.add(view);
         view.LoadData();
         viewContainerPanel.revalidate();
-    }
-    
-    public void showSeason(int year) {
-        
     }
     
     private void setDataProvider(String dataProvider){
@@ -52,7 +59,9 @@ public class FotballInfoFrame extends JFrame {
     }
     
     private void clearView(){
-        viewContainerPanel.removeAll();
+        if(activeView != null)
+            viewContainerPanel.remove(activeView);
+        
         viewContainerPanel.revalidate();
         viewContainerPanel.repaint();
     }

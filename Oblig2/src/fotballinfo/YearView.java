@@ -8,7 +8,7 @@ import javax.swing.table.*;
  *
  * @author Marius Geitle <geimas5@gmail.com>
  */
-public class YearView extends JPanel implements IDataView {
+public class YearView extends ViewBase {
     
     private IDataProvider dataProvider;
     private FotballInfoFrame frame;
@@ -16,9 +16,9 @@ public class YearView extends JPanel implements IDataView {
     /**
      * Creates new form YearView
      */
-    public YearView(IDataProvider provider, FotballInfoFrame frame) {
-        dataProvider = provider;
+    public YearView(FotballInfoFrame frame, IDataProvider provider) {
         this.frame = frame;
+        this.dataProvider = provider;
         
         initComponents();
     }
