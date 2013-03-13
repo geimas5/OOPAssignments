@@ -1,9 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fotballinfo;
 
+import java.awt.event.*;
 import java.text.*;
 import java.util.*;
 
@@ -13,6 +10,8 @@ import java.util.*;
  */
 public class dateRangeSelector extends javax.swing.JPanel {
 
+    private List<ActionListener> actionListeners = new ArrayList<>();
+    
     private Date fromBounds;
     private Date toBounds;
     
@@ -25,6 +24,10 @@ public class dateRangeSelector extends javax.swing.JPanel {
         toBounds = to;
         
         addFromEntries();
+    }
+    
+    public void addEventListener(ActionListener listener) {
+        this.actionListeners.add(listener);
     }
     
     public Date getFrom() {
@@ -87,6 +90,12 @@ public class dateRangeSelector extends javax.swing.JPanel {
             c.add(Calendar.DAY_OF_YEAR, 1);
         }
     }
+    
+    private void raiseActionPerformed(){
+        for(ActionListener listener: actionListeners) {
+            listener.actionPerformed(new ActionEvent(this, 1, "Change"));
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -137,10 +146,12 @@ public class dateRangeSelector extends javax.swing.JPanel {
 
     private void fromComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromComboBoxActionPerformed
         addEntries();
+        raiseActionPerformed();
     }//GEN-LAST:event_fromComboBoxActionPerformed
 
     private void toComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toComboBoxActionPerformed
         addEntries();
+        raiseActionPerformed();
     }//GEN-LAST:event_toComboBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

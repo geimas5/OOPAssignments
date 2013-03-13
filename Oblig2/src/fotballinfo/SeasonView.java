@@ -6,6 +6,7 @@ package fotballinfo;
 
 import fotballinfo.data.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.util.*;
 import javax.swing.table.*;
@@ -31,10 +32,13 @@ public class SeasonView extends ViewBase {
         initComponents();
         
         setDateSelector();
+        
+        this.dateRangeSelector1.addEventListener(new ReloadViewListener(this));
     }
     
     @Override
     public void LoadData() {
+        System.out.println("Loading data");
         this.yearLabel.setText(Integer.toString(year));
         LoadSeasonTask retriever = new LoadSeasonTask(this, dataProvider, this.dateRangeSelector1.getFrom(), this.dateRangeSelector1.getTo());
         retriever.execute();
@@ -58,27 +62,17 @@ public class SeasonView extends ViewBase {
     public void setTeams(TeamSeasonInfo[] teams) {
         DefaultTableModel model = (DefaultTableModel)this.teamsTable.getModel();
         model.setNumRows(0);
+        Arrays.sort(teams);
+        
+        
         for(TeamSeasonInfo team : teams) {
             model.addRow(new Object[] { team.getName(), team.getMatches(), team.getPoints() } );
         }
     }
     
     private void setDateSelector(){
-        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
-        cal.set(Calendar.YEAR, this.year);
-        cal.set(Calendar.DAY_OF_YEAR, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-
-        Date start = cal.getTime();
-
-        cal.set(Calendar.YEAR, this.year);
-        cal.set(Calendar.MONTH, 11);
-        cal.set(Calendar.DAY_OF_MONTH, 31);
-
-        Date end = cal.getTime();
+        Date start = DateUtilities.getFirstDayOfYear(year);
+        Date end = DateUtilities.getLastDayOfYear(year);
 
         this.dateRangeSelector1.setBounds(start, end);
     }
@@ -116,10 +110,7 @@ public class SeasonView extends ViewBase {
 
         matchesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Date", "Home", "Away", "Home goals", "Away goals", "Points"
@@ -139,7 +130,7 @@ public class SeasonView extends ViewBase {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,7 +161,7 @@ public class SeasonView extends ViewBase {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,7 +178,7 @@ public class SeasonView extends ViewBase {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         jTabbedPane1.getAccessibleContext().setAccessibleName("tab1");
@@ -203,7 +194,7 @@ public class SeasonView extends ViewBase {
                         .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(yearLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(dateRangeSelector1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())

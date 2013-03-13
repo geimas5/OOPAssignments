@@ -47,4 +47,13 @@ public class MatchInfo {
        
         return 1;
     }
+    
+    public String getWinnerTeam() {
+        if(this.homeGoals > this.awayGoals)
+            return this.homeTeam;
+        else if(this.awayGoals > this.homeGoals)
+            return this.awayTeam;
+        else
+            return null;
+    }
 }
